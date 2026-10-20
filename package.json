@@ -5,8 +5,8 @@
   "type": "module",
   "description": "Minimal editorial architecture and interiors site template (structure study for a Framer template).",
   "scripts": {
-    "build": "node build.mjs",
-    "preview": "node build.mjs && npx serve dist"
+    "build": "node build.mjs && node src/inner-pages.mjs",
+    "preview": "npm run build && npx serve dist"
   },
   "dependencies": {
     "@unseenco/taxi": "2.0.0",
