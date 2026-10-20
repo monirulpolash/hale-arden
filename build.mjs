@@ -1,103 +1,64 @@
-// Static build: renders every page from src/data.mjs and bundles src/main.js.
 import { mkdirSync, writeFileSync, copyFileSync, rmSync } from 'node:fs';
 import { build } from 'esbuild';
 import { ASSETS, studio, categories, projects, process as steps, values, team, awards, press } from './src/data.mjs';
+import { out, esc, img, lines, nav, layout, coverTitle, coverTag, crop, write, WG, WGI, PROC_IMG, VISION } from './src/site.mjs';
 
-const out = 'dist';
 rmSync(out, { recursive: true, force: true });
-mkdirSync(out, { recursive: true });
-
-const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-const img = (name, alt, { sizes = '100vw', eager = false, parallax = false, ratio } = {}) =>
-  `<div class="media${parallax ? ' parallax' : ''}"${ratio ? ` style="--r:${ratio}"` : ''}><img ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async" src="${ASSETS}/img/${name}-640.webp" srcset="${ASSETS}/img/${name}-640.webp 640w, ${ASSETS}/img/${name}-1376.webp 1376w" sizes="${sizes}" alt="${esc(alt)}"></div>`;
-const lines = (text, cls = '') => `<span class="${cls}" data-reveal="title">${text.split('|').map((l) => `<span class="line-mask"><span>${esc(l)}</span></span>`).join('')}</span>`;
-const nav = [['/works/', 'Work'], ['/studio/', 'Studio'], ['/process/', 'Process'], ['/contact/', 'Contact']];
-
-const layout = ({ title, desc, body, ns = 'default', path = '/' }) => `<!doctype html>
-<html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${esc(title)}</title><meta name="description" content="${esc(desc)}">
-<meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:image" content="${ASSETS}/img/hill-house-1376.webp">
-<link rel="preconnect" href="${ASSETS}" crossorigin><link rel="preload" href="${ASSETS}/fonts/inter-tight-500.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/styles.css">
-<script>document.documentElement.classList.add('js');if(sessionStorage.getItem('ha-loaded')||matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('no-loader')</script>
-<script type="module" src="/app.js"></script>
-</head><body>
-<a class="sr-only" href="#main">Skip to content</a>
-<div class="loader" aria-hidden="true"><div class="word t-100">${[...studio.name].map((c) => `<span>${c === ' ' ? '&nbsp;' : esc(c)}</span>`).join('')}</div><div class="counter t-100">0%</div></div>
-<header class="header wrap">
-  <a href="/" class="logo">${esc(studio.name)}</a>
-  <span class="clock t-14">${esc(studio.city)} <span data-clock>--:--</span></span>
-  <nav aria-label="Main">${nav.map(([h, l]) => `<a class="u-link" href="${h}">${l}</a>`).join('')}</nav>
-  <button class="menu-btn" aria-expanded="false" aria-controls="menu">Menu</button>
-</header>
-<div class="menu-overlay"></div>
-<div class="menu" id="menu" role="dialog" aria-label="Menu"><div class="menu-top"><a href="/" class="logo">${esc(studio.name)}</a><button class="menu-close">Close</button></div>
-<ul class="t-48">${[['/', 'Home'], ...nav].map(([h, l]) => `<li class="line-mask"><a href="${h}"><span>${l}</span></a></li>`).join('')}</ul>
-<div class="t-14"><p>${esc(studio.email)}</p><p>${esc(studio.phone)}</p></div></div>
-<div class="transition-overlay"></div>
-<div data-taxi>
-<div data-taxi-view="${ns}" data-path="${path}">
-<div class="view"><main id="main">
-${body}
-</main></div>
-<div class="footer-space" aria-hidden="true"></div>
-</div>
-</div>
-<footer class="footer">
-  <div class="big t-72"><a class="u-link" href="/contact/">Talk to us about your project</a></div>
-  <div class="bottom grid t-14">
-    <div class="span-all c1-4"><p class="muted">Studio</p><p>${studio.address.map(esc).join('<br>')}</p></div>
-    <div class="span-all c5-8"><p class="muted">Contact</p><p><a class="u-link" href="mailto:${studio.email}">${esc(studio.email)}</a><br>${esc(studio.phone)}</p></div>
-    <form class="span-all c9-12 newsletter" onsubmit="event.preventDefault();this.querySelector('button').textContent='Thank you'"><label class="sr-only" for="nl">Email</label><input id="nl" type="email" required placeholder="Newsletter — your email"><button>Subscribe</button></form>
-  </div>
-  <div class="wordmark" aria-hidden="true">${esc(studio.name)}</div>
-</footer>
-</body></html>`;
-
-const write = (path, html) => { const dir = `${out}${path}`; mkdirSync(dir, { recursive: true }); writeFileSync(`${dir}index.html`, html); };
-const sizesFor = ['size-l', 'size-s off-1', '', 'size-l', '', 'size-s', 'size-l', ''];
-
 // HOME
 write('/', layout({ title: `${studio.name} — ${studio.tagline}`, desc: studio.intro, ns: 'home', body: `
-<section class="cover" data-cover>
-  ${img('hill-house', 'Low concrete and timber house set into a hillside at dusk', { eager: true, parallax: true })}
-  <div class="cover-content wrap grid">
-    <h1 class="t-100 span-all">${lines(`${studio.name}`)}</h1>
-    <div class="cover-meta span-all t-14"><span data-reveal="content">${esc(studio.tagline)}</span><span data-reveal="content">Selected work 2023—2027</span></div>
+<section class="cover" data-cover data-dark>
+  <div class="cover-title-dark" aria-hidden="true">${esc(coverTitle)}</div>
+  <div class="cover-bottom-dark grid wrap" aria-hidden="true"><div class="scroll-hint"><span>[</span>&nbsp;<span>Scroll</span>&nbsp;<span>down</span>&nbsp;<span>]</span></div><div class="cover-tag">${esc(coverTag)}</div></div>
+  <div class="cover-image">
+    <div class="cover-image-inner">${img('hill-house', 'Low concrete and timber house set into a hillside at dusk', { eager: true, parallax: true })}</div>
+    <div class="cover-title">${esc(coverTitle)}</div>
+    <div class="cover-bottom grid wrap"><div class="scroll-hint">[Scroll down]</div><h1 class="cover-tag">${esc(coverTag)}</h1></div>
   </div>
 </section>
-<section class="section wrap grid">
-  <p class="label t-14 c1-3 span-all" data-reveal="content"><span class="idx">(01)</span>About</p>
-  <h2 class="t-48 c4-12 span-all">${lines(studio.intro.replace(', where', ',|where'))}</h2>
-  <p class="t-20 c7-12 span-all" style="margin-top:4rem" data-reveal="content">${esc(studio.about)}</p>
-  <p class="c7-12 span-all" style="margin-top:2rem" data-reveal="content"><a class="u-link" href="/studio/">About the studio</a></p>
+<section class="about grid wrap" data-widget="Studio" data-widget-url="/studio/">
+  ${crop}
+  <div class="about-media"><div class="about-media-track"><div class="about-media-sticky">${img('studio-office', 'The studio workroom with models and drawings', { sizes: '(min-width:768px) 17vw, 100vw' })}</div></div></div>
+  <div class="about-intro">
+    <p class="subtitle" data-reveal="content"><span class="n">01</span><span>Studio</span></p>
+    <p class="about-copy" data-reveal="content">${esc(studio.about)}</p>
+  </div>
+  <div class="about-title"><h2 class="offset-title"><span class="offset-spacer" aria-hidden="true"></span>${esc(studio.name)} is a Lisbon based Architecture &amp; Interior Design studio, designing calm, enduring buildings and rooms across Portugal and abroad</h2></div>
+  <p class="about-label" data-reveal="content">Architecture<br>&amp; Interior Design</p>
+  <p class="about-lead" data-reveal="content">${esc(studio.intro)} <a class="u-link" href="/studio/">About the studio</a></p>
 </section>
-<section class="wrap">
-  <p class="label t-14" data-reveal="content"><span class="idx">(02)</span>Selected work</p>
-  ${projects.slice(0, 3).map((p) => `<a class="selected-item grid" href="/work/${p.slug}/" data-selected>
-    ${img(p.image, p.title, { sizes: '(min-width:768px) 66vw, 100vw', ratio: '4/3' })}
-    <div class="selected-text span-all"><p class="t-14 muted" data-reveal="content">${p.category} — ${p.year}</p><h3 class="selected-title t-48"><span class="br br-l">[</span>${esc(p.title)}<span class="br br-r">]</span></h3><p class="t-14" style="margin-top:1rem;max-width:32rem" data-reveal="content">${esc(p.summary)}</p></div>
+<section class="works">
+  <div class="works-head wrap"><div class="wh-l"><span class="n m">02</span><h2>Selected Works</h2></div><div class="n d">02</div><div class="wh-r">23 - 27'</div></div>
+  <div class="works-list-home">
+  ${projects.slice(0, 3).map((p) => `<a class="works-item" href="/work/${p.slug}/" data-selected data-widget="${esc(p.title)}" data-widget-url="/work/${p.slug}/">
+    <div class="works-item-title-row wrap"><i class="tick l"></i><i class="tick r"></i><span class="br br-l">[</span><h3 class="works-item-title">${esc(p.title)}</h3><span class="br br-r">]</span></div>
+    <div class="works-item-body grid wrap"><div class="works-item-col">${img(p.image, p.title, { sizes: '(min-width:1280px) 50vw, (min-width:768px) 66vw, 100vw' })}<div class="works-item-meta"><span>${esc(p.category)}</span><span>${p.status === 'In progress' ? 'Coming Soon' : p.year}</span></div></div></div>
   </a>`).join('')}
-</section>
-<section class="section wrap">
-  <p class="label t-14" style="margin-bottom:4rem" data-reveal="content"><span class="idx">(03)</span>All work (${projects.length})</p>
-  <div class="works-grid grid">
-  ${projects.map((p, i) => `<a class="wg-item ${sizesFor[i % sizesFor.length]}" href="/work/${p.slug}/" data-mouse="${(i % 3) + 1}">${img(p.image, p.title, { sizes: '(min-width:768px) 50vw, 50vw', ratio: i % 2 ? '4/5' : '4/3' })}<div class="meta t-14"><span>${esc(p.title)}</span><span class="muted">${p.year}</span></div></a>`).join('')}
-  </div>
-  <div class="all-works t-14"><a href="/works/">View all work</a></div>
-</section>
-<section class="vision" data-vision>
-  <div class="vision-sticky">
-    ${img('courtyard', 'Courtyard with an olive tree and concrete walls', { sizes: '100vw' })}
-    <div class="vision-titles t-72">${['Calm rooms', 'Honest materials', 'Lasting light'].map((t) => `<div>${esc(t)}</div>`).join('')}</div>
   </div>
 </section>
-<section class="section wrap">
-  <p class="label t-14" style="margin-bottom:4rem" data-reveal="content"><span class="idx">(04)</span>Process</p>
-  ${steps.map((s) => `<div class="process-row grid"><span class="n t-14 span-all">${s.n}</span><h3 class="h t-32 span-all">${lines(s.title)}</h3><p class="p t-14 span-all" data-reveal="content">${esc(s.text)}</p></div>`).join('')}
-  <p style="margin-top:3rem"><a class="u-link" href="/process/">How we work</a></p>
-</section>` }));
+<section class="wg" data-widget="All Work" data-widget-url="/works/" data-widget-offset="0.5">
+  <div class="wg-button"><a href="/works/" class="wg-link"><span>All Work</span><sup>(${projects.length})</sup></a></div>
+  <div class="wg-rows" aria-hidden="true">${WG.map((row, r) => `<div class="wg-row wg-r${r + 1}">${row.map((size, i) => `<div class="wg-cell"><div class="wg-it" data-size="${size}"><div class="wg-img">${img(WGI[(r * 5 + i) % WGI.length], '', { sizes: size === 'large' ? '(min-width:1280px) 25vw, 50vw' : '(min-width:1280px) 16vw, 33vw' })}</div></div></div>`).join('')}</div>`).join('')}</div>
+</section>
+<section class="vision" data-vision data-widget="Vision" data-widget-url="/process/" data-widget-offset="1">
+  <div class="vision-stage grid wrap">
+    <div class="vision-image-wrapper"><div class="vision-image"><div class="vision-image-scroll"><div class="vision-image-parallax">${img('courtyard', 'Courtyard with an olive tree and lime-washed walls', { sizes: '100vw' })}<div class="vision-dim"></div></div></div></div></div>
+  </div>
+  <div class="vision-track">
+    <div class="vision-wrapper grid wrap">
+      <div class="vision-titles">${VISION.map((v, i) => `<div class="vt vt-${i + 1}"><h3 class="vision-title${i ? ' dim' : ''}">${esc(v.title)}</h3></div>`).join('')}</div>
+      <div class="vision-rule"><div class="vision-number"><span class="vision-number-text">03</span></div><div class="vision-line"></div><h2 class="vision-suptitle"><span class="vision-suptitle-text">Vision</span></h2></div>
+      <div class="vision-contents">${VISION.map((v, i) => `<div class="vision-content${i ? ' abs' : ''}">${esc(v.text)}</div>`).join('')}</div>
+    </div>
+  </div>
+</section>
+<section class="process grid wrap" data-process>
+  ${crop}
+  <div class="process-list">${steps.map((s, i, a) => `<span class="process-entry"><span class="process-item${i ? '' : ' a'}" tabindex="0" role="button"><span>${esc(s.title)} <sup>(${s.n})</sup></span></span>${i < a.length - 1 ? ' <span>/</span> ' : ''}</span>`).join('')}</div>
+  <div class="process-media"><div class="process-media-box">${steps.map((s, i) => `<div class="process-image${i ? '' : ' a'}">${img(PROC_IMG[i % PROC_IMG.length], s.text, { sizes: '(min-width:1280px) 25vw, 100vw' })}</div>`).join('')}</div></div>
+  <div class="process-sub"><p class="subtitle"><span class="n">04</span><span>Process</span></p></div>
+  <h3 class="process-desc" data-reveal="content">Our studio covers every stage of architecture and interior design, from the first site visit and early concepts through to the day you move in.</h3>
+</section>
+<div class="widget-sticky" aria-hidden="false"><a class="widget" href="/studio/" data-widget-link><span class="widget-wrapper"><span class="widget-title-wrapper"><span class="widget-title"><span class="widget-ghost">Studio</span><span class="widget-titles"></span></span></span><span class="widget-cta"><span>Discover</span><span class="widget-icon" aria-hidden="true"><svg viewBox="0 0 11 11" width="11" height="11"><path d="M5.5 0v11M0 5.5h11" stroke="currentColor" stroke-width="1"/></svg></span></span></span></a></div>` }));
 
 // WORKS
 write('/works/', layout({ title: `Work — ${studio.name}`, desc: 'Selected architecture and interiors projects.', ns: 'works', path: '/works/', body: `
