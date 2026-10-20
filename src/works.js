@@ -43,3 +43,40 @@ document.addEventListener('click', (e) => {
     ScrollTrigger.refresh();
   }
 });
+
+/* Card follow-mouse preview, 1:1 with the reference c-follow-mouse (desktop >= 1200px, hover devices):
+   a 12.5rem image trails the cursor 2rem right / 2.5rem below it (quickTo .6s expo.out), scales in 0 -> 1 with the
+   photo 1.8 -> 1 (.8s expo.out), cycles to the next project image every 7.5vw of mouse travel, and scales out on leave
+   (.6s expo.out). The card's black wash (.24) and image zoom (1.05 -> 1) are CSS, as on the reference. */
+(() => {
+  const remPx = (r) => r * parseFloat(getComputedStyle(document.documentElement).fontSize);
+  const mouse = { x: 0, y: 0 }; const st = new WeakMap(); const live = new Set();
+  const ok = () => innerWidth >= 1200 && matchMedia('(hover:hover)').matches;
+  addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
+  const get = (el) => { let s = st.get(el); if (!s) { s = { el, content: el.querySelector('.fm-el'), image: el.querySelector('.fm-image'), inner: el.querySelector('.fm-inner'), imgs: [...el.querySelectorAll('.fm-img')], idx: 0, last: { x: 0, y: 0 } }; st.set(el, s); } return s; };
+  const pos = (s) => { const r = s.el.getBoundingClientRect(); return { x: mouse.x - r.left + remPx(2), y: mouse.y - r.top + remPx(2.5) }; };
+  document.addEventListener('mouseenter', (e) => {
+    const el = e.target; if (!(el instanceof Element) || !el.matches('[data-follow-mouse]') || !ok()) return;
+    const s = get(el); mouse.x = e.clientX; mouse.y = e.clientY;
+    s.out && s.out.kill();
+    s.in = gsap.timeline({ defaults: { ease: 'expo.out', duration: 0.8 } }).to(s.image, { scale: 1 }).set(s.image, { opacity: 1 }, '<10%').fromTo(s.inner, { scale: 1.8 }, { scale: 1 }, 0);
+    const p = pos(s); gsap.set(s.content, { x: p.x, y: p.y });
+    s.qx = gsap.quickTo(s.content, 'x', { duration: 0.6, ease: 'expo.out' }); s.qy = gsap.quickTo(s.content, 'y', { duration: 0.6, ease: 'expo.out' });
+    live.add(s);
+  }, true);
+  document.addEventListener('mouseleave', (e) => {
+    const el = e.target; if (!(el instanceof Element) || !el.matches('[data-follow-mouse]')) return;
+    const s = st.get(el); if (!s) return; live.delete(s);
+    s.in && s.in.kill();
+    s.out = gsap.timeline({ defaults: { ease: 'expo.out', duration: 0.6 } }).to(s.image, { scale: 0 }).to(s.inner, { scale: 1.8 }, 0).set(s.image, { opacity: 0 }, '<10%');
+  }, true);
+  gsap.ticker.add(() => {
+    live.forEach((s) => {
+      if (!s.el.isConnected) { live.delete(s); return; }
+      if (Math.hypot(mouse.x - s.last.x, mouse.y - s.last.y) > 0.075 * innerWidth && s.imgs.length > 1) {
+        s.imgs[s.idx].classList.add('is-off'); s.idx = (s.idx + 1) % s.imgs.length; s.imgs[s.idx].classList.remove('is-off'); s.last = { x: mouse.x, y: mouse.y };
+      }
+      const p = pos(s); s.qx(p.x); s.qy(p.y);
+    });
+  });
+})();
