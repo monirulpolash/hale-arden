@@ -76,3 +76,4 @@ export const VISION = [
   { title: 'Honest materials', text: 'We choose stone, timber, lime and brick that age well and need little upkeep, and we let them show. Drawings, samples and full-size mock-ups help clients see how each surface will look and feel long before it is built.' },
   { title: 'Lasting light', text: 'We plan rooms around how daylight moves through them across the day and the year. Good light, fresh air and a calm view do more for the people inside a building than any finish we could add.' },
 ];
+
