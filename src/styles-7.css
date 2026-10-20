@@ -63,6 +63,8 @@ html.no-js [data-st-title],html.no-js [data-st-content]{visibility:visible}
 .st-team-photo{position:relative;width:100%;padding-top:133%;overflow:hidden}
 .st-team-image{position:absolute;inset:0;opacity:0}
 .st-team-image.a{opacity:1}
+/* reference quirk: the first portrait never gets opacity-0, so it stays as the base layer under the others */
+.st-team-image:first-child{opacity:1}
 .st-team-jobs{display:flex;justify-content:center;align-items:flex-start;margin-top:1rem;font-size:1.4rem;line-height:1.2;text-transform:uppercase;text-align:center}
 .st-team-jobs .br{display:none}
 .st-team-jw{position:relative;display:block;flex:1}
@@ -124,8 +126,12 @@ html.no-js [data-st-title],html.no-js [data-st-content]{visibility:visible}
 /* awards + press tables */
 .st-awards{padding-top:10rem}
 .st-press{padding-top:10rem}
+/* reference: awards + press are bg-white, relative, z-1, -mt-px so they cover the pinned values/vision block */
+.st-awards,.st-press{position:relative;z-index:1;margin-top:-1px;background:#fff}
+.st-pr-hr{margin-bottom:2rem!important}
+@media (min-width:768px){.st-pr-hr{margin-bottom:1.5rem!important}}
 @media (min-width:1024px){.st-awards,.st-press{padding-top:15rem}}
-.st-thead{margin:5.2rem 0 2rem;font-size:1.4rem;line-height:1.2;text-transform:uppercase;color:var(--mist)}
+.st-thead{margin:5.2rem 0 2rem;font-size:1.6rem;line-height:1.1;text-transform:none;color:var(--black,#000)}
 .st-awards hr,.st-press hr{border:0;border-top:1px solid var(--mist);margin:0}
 .st-aw-head .c-year,.st-aw-head .c-award{display:none}
 .st-aw-head .c-proj,.st-aw-head .c-acc{grid-column:span 3}
