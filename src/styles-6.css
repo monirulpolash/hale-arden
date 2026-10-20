@@ -1,0 +1,13 @@
+@media (min-width:768px){.loader-title{grid-column:1/4}.loader-location{display:block;grid-column:6/8}.loader-load{grid-column:10/13}}
+html.no-loader .loader{display:none}
+html.is-loading .intro-logo{visibility:visible;z-index:101}
+html.is-loading{overflow:hidden}
+html.is-loading .header{visibility:hidden}
+
+/* Header nav, 1:1 with telhaclarke.com.au (list-o): hovering one link dims the others, the current page stays full */
+.header-link{display:inline-block}.header-link+.header-link{padding-left:.6rem}
+.list-o:hover{pointer-events:none}.list-o .list-o-item{pointer-events:auto}
+.list-o:hover .list-o-item,.list-o.a .list-o-item{opacity:.52}
+.header:not(.is-light) .list-o:hover .list-o-item,.header:not(.is-light) .list-o.a .list-o-item{opacity:.24}
+.list-o .list-o-item.a,.list-o.a .list-o-item.a{opacity:1}
+@media (hover:hover){.list-o .list-o-item:hover{opacity:1}}
