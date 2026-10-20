@@ -84,7 +84,7 @@ const body = `
       <div class="st-pad">${sub('05', 'Press')}</div>
       <div class="sg st-thead st-pr-head"><span class="c-year">Year</span><span class="c-proj"><span class="md">Project</span><span class="mo">Projects</span></span><span class="c-title">Title</span><span class="c-pub">Publication</span></div>
       <div class="st-pad"><hr class="st-pr-hr"></div>
-      <div class="st-pr-list">${press.map((p) => `<a class="sg st-pr-row" href="/works/"><span class="c-year">${p.year}</span><span class="c-img"><span class="st-pr-img">${pic(p.image, p.title, { sizes: '10vw' })}</span></span><span class="c-proj">${esc(p.project)}</span><span class="c-title">${esc(p.title)}<span class="st-pr-mpub">${esc(p.publication)}</span></span><span class="c-pub">${esc(p.publication)}</span></a>`).join('')}</div>
+      <div class="st-pr-list">${[...press].sort((a, b) => b.year - a.year).map((p) => `<a class="sg st-pr-row" href="/works/"><span class="c-year">${p.year}</span><span class="c-img"><span class="st-pr-img">${pic(p.image, p.title, { sizes: '10vw' })}</span></span><span class="c-proj">${esc(p.project)}</span><span class="c-title">${esc(p.title)}<span class="st-pr-mpub">${esc(p.publication)}</span></span><span class="c-pub">${esc(p.publication)}</span></a>`).join('')}</div>
     </section>
   </div>
 </div>`;
