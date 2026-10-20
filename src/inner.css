@@ -14,15 +14,10 @@
 .wp-filters button{opacity:.32;transition:opacity .45s var(--ease-out)}.wp-filters button.is-active,.wp-filters button:hover{opacity:1}
 .wp-grid{display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));column-gap:var(--gutter);row-gap:3.2rem}
 .cw{grid-column:1/-1;display:flex;flex-direction:column;gap:1.6rem;color:inherit}
-.cw .media{aspect-ratio:4/5}
-.cw.s12 .media{aspect-ratio:4/3}
 .cw-meta{display:flex;gap:var(--gutter);font-size:1.6rem;line-height:1.2}
 .cw-t{flex:1;min-width:0}
 .cw-r{display:flex;justify-content:space-between;flex:0 0 calc(var(--col)*3 + var(--gutter)*2);color:var(--mist)}
 .cw.is-hidden,.wl-row.is-hidden{display:none}
-.wp-list{border-top:1px solid var(--line)}
-.wl-row{display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));column-gap:var(--gutter);padding:1.2rem 0 1rem;border-bottom:1px solid var(--line);font-size:1.6rem;line-height:1.2;color:inherit}
-.wl-row .cw-t{grid-column:1/5}.wl-row .wl-c{grid-column:5/7;color:var(--mist)}.wl-row .wl-l,.wl-row .wl-y{display:none}
 .wp-switch .widget-wrapper{padding:0}
 .wp-tab{color:inherit;font:inherit;padding:1.1rem 1.2rem .9rem;opacity:.52;transition:opacity .45s var(--ease-out);display:none;align-items:center;gap:.6rem}
 .wp-tab.is-active{opacity:1}
@@ -31,13 +26,10 @@
   .wp-title{font-size:6rem;margin-bottom:5.2rem}
   .wp-grid{row-gap:6.8rem}
   .cw.s6{grid-column:span 6}.cw.s4{grid-column:span 4}.cw.s12{grid-column:1/-1}
-  .cw.s6 .media{aspect-ratio:5/4}.cw.s4 .media{aspect-ratio:4/5}.cw.s12 .media{aspect-ratio:16/9}
   .cw-r{flex-basis:calc(var(--col)*2 + var(--gutter))}
-  .wl-row .cw-t{grid-column:1/6}.wl-row .wl-c{grid-column:7/9}.wl-row .wl-l{display:block;grid-column:9/11;color:var(--mist)}.wl-row .wl-y{display:block;grid-column:11/13;text-align:right;color:var(--mist)}
   .wp-tab{display:flex}.wp-ftoggle{display:none}
   .wp-filters{display:flex;margin:-3rem 0 4rem;font-size:1.4rem}
 }
-@media (hover:hover){.cw .media img{transition:opacity var(--t-smooth) var(--ease-alpha),transform 1.2s var(--ease-out)}.cw:hover .media img{transform:scale(1.03)}}
 /* single work */
 .wk-head{padding-top:25rem;display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));column-gap:var(--gutter);row-gap:3.2rem;padding-bottom:3.2rem}
 .wk-title{grid-column:1/-1;font-size:4.8rem;line-height:1;letter-spacing:-.02em}
@@ -70,10 +62,52 @@
 @media (min-width:768px){
   .wp-fbtn{display:block;font-size:6rem}
   .wp-filters{display:none}.wp-filters.is-open{display:flex}
-  .cw.s6 .media{aspect-ratio:3/2}.cw.s4 .media{aspect-ratio:4/3}
   .wk-title{grid-column:1/-1}
   .wk-details{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:var(--gutter)}
   .wk-details .d{display:flex;gap:2.4rem;padding:0}.wk-details .k,.wk-details .v{grid-column:auto}
   .wk-head{padding-top:20rem;row-gap:4rem}
 }
 .wp-grid[hidden],.wp-list[hidden]{display:none}
+
+/* ---- Works page card + list hover, 1:1 with telhaclarke.com.au/works/ (card-work, c-follow-mouse, list-works-item) ---- */
+.cw-media{position:relative;display:block;width:100%;height:0;padding-top:var(--ratio);overflow:hidden}
+.cw-zoom{position:absolute;inset:0;transform:scale(1.05);transition:transform var(--t-smooth) var(--ease-out)}
+.cw-zoom .media{position:absolute;inset:0;width:100%;height:100%}
+.cw-zoom .media img{position:absolute;inset:0}
+.cw-follow{position:absolute;inset:0;display:none}
+.cw-shade{position:absolute;inset:0;background:var(--black);opacity:0;transition:opacity var(--t-smooth) var(--ease-out)}
+.fm-el{position:absolute;top:0;left:0;display:flex;flex-direction:column;gap:1rem;will-change:transform}
+.fm-image{position:relative;display:block;width:12.5rem;height:0;padding-top:121%;overflow:hidden;transform:scale(0);opacity:0}
+.fm-inner{position:absolute;inset:0;transform:scale(1.8)}
+.fm-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:var(--mist)}
+.fm-img.is-off{opacity:0}
+.cw-meta{display:flex;gap:var(--gutter)}
+.cw-r{overflow:hidden;gap:var(--gutter)}
+.cw-term,.cw-date{position:relative;display:block;transition:transform var(--t-smooth) var(--ease-out);transition-delay:0s}
+.cw-term>span,.cw-date>span{display:block}
+.cw-term .cw-alt{position:absolute;top:100%;left:0;white-space:nowrap}
+.cw-date .cw-arrow{position:absolute;top:100%;right:0;width:1.5rem;height:100%;display:flex;align-items:center}
+.cw-arrow svg{width:100%;height:auto}
+.wl-head,.wl-cells{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gutter)}
+.wl-head{padding-bottom:2rem;border-bottom:1px solid var(--mist);margin-bottom:1.5rem}
+.wl-head .c1,.wl-cells .c1,.wl-head .c2,.wl-cells .c2,.wl-head .c3,.wl-cells .c3{grid-column:span 3}
+.wl-head .c4,.wl-cells .c4{grid-column:span 2}.wl-cells .c4{margin-right:-3rem}
+.wl-head .c5,.wl-cells .c5{grid-column:span 1;display:flex;justify-content:flex-end;text-align:right}
+.wl-row{position:relative;display:block;width:calc(100% + 2*var(--margin));margin:0 calc(-1*var(--margin));color:inherit}
+.wl-cells{padding:.8rem var(--margin) .5rem}
+.wl-prev{position:absolute;top:50%;left:0;width:100%;display:none;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gutter);padding:0 var(--margin);transform:translateY(-50%);opacity:0;pointer-events:none;z-index:1}
+.wl-prev-col{grid-column:8/10;display:block}
+.wl-prev-r{position:relative;display:block;width:100%;height:0;padding-top:125%;overflow:hidden;background:var(--mist)}
+.wl-prev-r img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+@media (max-width:767px){.wl-head,.wl-cells,.wl-prev{grid-template-columns:repeat(6,minmax(0,1fr))}.wl-cells{row-gap:.2rem}.wl-cells .c4{margin-right:0}}
+@media (min-width:1280px){
+  .cw-follow,.wl-prev{display:block}.wl-prev{display:grid}
+}
+@media (min-width:1280px) and (hover:hover){
+  .cw-media:hover .cw-zoom{transform:scale(1)}
+  .cw-media:hover .cw-shade{opacity:.24}
+  .cw:hover .cw-term,.cw:hover .cw-date{transform:translateY(-100%)}
+  .cw:hover .cw-date{transition-delay:75ms}
+  .wl-row:hover{background:#952c16;color:var(--white)}
+  .wl-row:hover .wl-prev{opacity:1}
+}
