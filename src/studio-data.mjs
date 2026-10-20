@@ -32,6 +32,15 @@ export const team = [
   { name: 'Nuno Barros', role: 'Associate', image: 'kitchen' },
   { name: 'Ana Ribeiro', role: 'Finance Manager', image: 'bathroom' },
   { name: 'Diogo Lima', role: 'Student of Architecture', image: 'stair' },
+  { name: 'In\u00eas Carvalho', role: 'Interior Designer', image: 'courtyard' },
+  { name: 'Gon\u00e7alo Teixeira', role: 'Project Architect', image: 'tower' },
+  { name: 'Mariana Lopes', role: 'Graduate of Interior Design', image: 'hill-house' },
+  { name: 'Ricardo Santos', role: 'Senior Associate', image: 'corner-apartments' },
+  { name: 'Joana Fonseca', role: 'Interior Designer', image: 'kitchen' },
+  { name: 'Tiago Moreira', role: 'Draftsperson', image: 'bathroom' },
+  { name: 'Helena Cruz', role: 'Office Coordinator', image: 'studio-office' },
+  { name: 'Andr\u00e9 Pinto', role: 'Project Architect', image: 'stair' },
+  { name: 'Lu\u00edsa Martins', role: 'Student of Interior Design', image: 'courtyard' },
 ];
 
 export const values = {
@@ -54,6 +63,10 @@ export const awards = [
     { project: 'Hill House', award: 'European Design Review', accolade: 'Residential Architecture: Shortlist' },
     { project: 'Stone Kitchen', award: 'Iberian Interiors Awards', accolade: 'Kitchen Design: Winner' },
     { project: 'Corner Apartments', award: 'Lisbon Architecture Week', accolade: 'Multi-residential: Commendation' },
+    { project: 'Hill House', award: 'Atlantic Architecture Prize', accolade: 'New House: Finalist' },
+    { project: 'Tower Rooms', award: 'Iberian Interiors Awards', accolade: 'Hospitality Design: Shortlist' },
+    { project: 'Stone Kitchen', award: 'Material Matters Awards', accolade: 'Stone and Timber: Commendation' },
+    { project: 'Lime Bathhouse', award: 'European Design Review', accolade: 'Wellness Interior: Shortlist' },
   ] },
   { year: 2025, items: [
     { project: 'Courtyard House', award: 'Iberian Interiors Awards', accolade: 'Interior of the Year: Winner' },
@@ -63,6 +76,9 @@ export const awards = [
     { project: 'Studio Office', award: 'Lisbon Architecture Week', accolade: 'Small Project Prize: Winner' },
     { project: 'Lime Bathhouse', award: 'Material Matters Awards', accolade: 'Materiality and Detail: Shortlist' },
   ] },
+  { year: 2023, items: [
+    { project: 'Stair House', award: 'Lisbon Architecture Week', accolade: 'Alterations and Additions: Winner' },
+  ] },
 ];
 
 export const press = [
@@ -71,4 +87,13 @@ export const press = [
   { year: 2025, project: 'Courtyard House', title: 'Living around an olive tree', publication: 'Form & Place', image: 'courtyard' },
   { year: 2025, project: 'Tower Rooms', title: 'Ten small hotels to watch this year', publication: 'Atlantic Travel', image: 'tower' },
   { year: 2024, project: 'Studio Office', title: 'Inside a Lisbon workroom', publication: 'Desk & Light', image: 'studio-office' },
+  { year: 2026, project: 'Corner Apartments', title: 'Apartment living, done quietly', publication: 'Habitat Quarterly', image: 'corner-apartments' },
+  { year: 2026, project: 'Lime Bathhouse', title: 'A bathroom in lime plaster', publication: 'Material Matters', image: 'bathroom' },
+  { year: 2026, project: 'Hill House', title: 'Home tour: a house on the hill', publication: 'Open House Weekly', image: 'hill-house' },
+  { year: 2025, project: 'Stair House', title: 'One stair, three floors', publication: 'Form & Place', image: 'stair' },
+  { year: 2025, project: 'Stone Kitchen', title: 'Kitchens worth cooking in', publication: 'Interiors Journal', image: 'kitchen' },
+  { year: 2025, project: 'Corner Apartments', title: 'Small homes, generous rooms', publication: 'City Living', image: 'corner-apartments' },
+  { year: 2024, project: 'Courtyard House', title: 'The return of the courtyard', publication: 'Atlantic Travel', image: 'courtyard' },
+  { year: 2024, project: 'Tower Rooms', title: 'Sleeping above the city', publication: 'Desk & Light', image: 'tower' },
+  { year: 2023, project: 'Stair House', title: 'A family house, opened up', publication: 'Habitat Quarterly', image: 'stair' },
 ];
