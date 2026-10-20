@@ -26,9 +26,9 @@ export const layout = ({ title, desc, body, ns = 'default', path = '/' }) => `<!
 <div class="loader" aria-hidden="true"><div class="loader-panel"></div><div class="loader-top grid wrap t-14"><div class="loader-title"><span class="lm"><span>Design studio</span></span><span class="lm"><span>${esc(studio.tagline)}</span></span></div><div class="loader-location"><span class="lm"><span>${esc(studio.city)}, Portugal</span></span></div><div class="loader-load"><span class="lm"><span class="loader-loading">Loading</span></span><span class="lm"><span class="loader-counter">0%</span></span></div></div></div>
 <header class="header grid wrap">
   <a href="/" class="logo" aria-label="${esc(studio.name)} home">${[...studio.name].map((c) => `<span>${c === ' ' ? '&nbsp;' : esc(c)}</span>`).join('')}</a>
-  <nav aria-label="Main">${[['/works/', 'Work'], ['/process/', 'Process'], ['/studio/', 'Studio']].map(([h, l], i, a) => `<a class="u-link" href="${h}">${l}</a>${i < a.length - 1 ? ',&nbsp;' : ''}`).join('')}</nav>
-  <span class="clock"><span class="time" data-clock>--:--</span> ${esc(studio.city)}, PT</span>
-  <a class="contact-link u-link" href="/contact/">Contact</a>
+  <nav aria-label="Main" class="header-links list-o">${[['/works/', 'Work'], ['/process/', 'Process'], ['/studio/', 'Studio']].map(([h, l], i, a) => `<a class="header-link list-o-item" href="${h}">${l}${i < a.length - 1 ? ',' : ''}</a>`).join('')}</nav>
+  <span class="clock"><span class="time" data-clock>--:--</span><span class="loc">${esc(studio.city)}, PT</span></span>
+  <span class="contact-w"><a class="contact-link" href="/contact/">Contact</a></span>
   <button class="menu-btn" aria-expanded="false" aria-controls="menu">Menu</button>
 </header>
 <div class="intro-logo" aria-hidden="true">${[...studio.name.toUpperCase()].map((c) => `<span>${c === ' ' ? '&nbsp;' : esc(c)}</span>`).join('')}</div>

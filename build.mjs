@@ -30,8 +30,8 @@ write('/', layout({ title: `${studio.name} — ${studio.tagline}`, desc: studio.
   <div class="works-head wrap"><div class="wh-l"><span class="n m">02</span><h2>Selected Works</h2></div><div class="n d">02</div><div class="wh-r">23 - 27'</div></div>
   <div class="works-list-home">
   ${projects.slice(0, 3).map((p) => `<a class="works-item" href="/work/${p.slug}/" data-selected data-widget="${esc(p.title)}" data-widget-url="/work/${p.slug}/">
-    <div class="works-item-title-row wrap"><i class="tick l"></i><i class="tick r"></i><span class="br br-l">[</span><h3 class="works-item-title">${esc(p.title)}</h3><span class="br br-r">]</span></div>
-    <div class="works-item-body grid wrap"><div class="works-item-col">${img(p.image, p.title, { sizes: '(min-width:1280px) 50vw, (min-width:768px) 66vw, 100vw' })}<div class="works-item-meta"><span>${esc(p.category)}</span><span>${p.status === 'In progress' ? 'Coming Soon' : p.year}</span></div></div></div>
+    <div class="works-item-wrapper"><div class="works-item-title-row wrap"><i class="tick l"></i><i class="tick r"></i><span class="br br-l">[</span><h3 class="works-item-title">${esc(p.title)}</h3><span class="br br-r">]</span></div>
+    <div class="works-item-body grid wrap"><div class="works-item-col">${img(p.image, p.title, { sizes: '(min-width:1280px) 50vw, (min-width:768px) 66vw, 100vw' })}<div class="works-item-meta"><span class="works-item-category">${esc(p.category)}</span><span class="works-item-date">${p.status === 'In progress' ? 'Coming Soon' : p.year}</span></div></div></div></div>
   </a>`).join('')}
   </div>
 </section>
